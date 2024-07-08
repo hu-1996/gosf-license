@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GoORMHelperCache">
+    <option name="schemaMapping">
+      <map>
+        <entry key="AllImageRepoReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AllImageRepoResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AllImageRepoTagReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CheckModel">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/license/license.go" />
+              <option value="file://$PROJECT_DIR$/pkg/license.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Commit">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="DownloadLogic">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/app/asset/api/internal/logic/git_repo/download_logic.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GenerateParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/license/license.go" />
+              <option value="file://$PROJECT_DIR$/pkg/license.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitCreateFileReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitCreateFileResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitDownloadReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitDownloadResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRawResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoBranchResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoBranchesGetReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoBranchesResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoCommitDiffReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoCommitDiffResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoCommitResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoCommitsGetReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoCommitsResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoFileInfoResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoFilePathReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoFilesTreeResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoGetReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoLastCommitReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitRepoResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUpdateFileReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUploadFile">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUserCreateReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUserDeleteReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUserResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUserTokenCreateReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUserTokenDeleteReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUserTokenResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GitUserUpdateReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoCreateReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoPageReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoPageResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoPathReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoTagCreateReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoTagPageReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoTagPageResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoTagPathReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoTagResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoTagUpdateReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ImageRepoUpdateReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="LinuxServerInfo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/license/server_info/linux.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Validate">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/license/validate.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ValidateParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/license/validate.go" />
+              <option value="file://$PROJECT_DIR$/pkg/validate.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="VerifyParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/license/license.go" />
+            </set>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="scannedPathMapping">
+      <map>
+        <entry key="file://$PROJECT_DIR$/../cloudbase/apis/types/asset.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720423978777" />
+              <option name="schema">
+                <list>
+                  <option value="AllImageRepoReq" />
+                  <option value="AllImageRepoResp" />
+                  <option value="AllImageRepoTagReq" />
+                  <option value="Commit" />
+                  <option value="GitCreateFileReq" />
+                  <option value="GitCreateFileResp" />
+                  <option value="GitDownloadReq" />
+                  <option value="GitDownloadResp" />
+                  <option value="GitRawResp" />
+                  <option value="GitRepoBranchResp" />
+                  <option value="GitRepoBranchesGetReq" />
+                  <option value="GitRepoBranchesResp" />
+                  <option value="GitRepoCommitDiffReq" />
+                  <option value="GitRepoCommitDiffResp" />
+                  <option value="GitRepoCommitResp" />
+                  <option value="GitRepoCommitsGetReq" />
+                  <option value="GitRepoCommitsResp" />
+                  <option value="GitRepoFileInfoResp" />
+                  <option value="GitRepoFilePathReq" />
+                  <option value="GitRepoFilesTreeResp" />
+                  <option value="GitRepoGetReq" />
+                  <option value="GitRepoLastCommitReq" />
+                  <option value="GitRepoResp" />
+                  <option value="GitUpdateFileReq" />
+                  <option value="GitUploadFile" />
+                  <option value="GitUserCreateReq" />
+                  <option value="GitUserDeleteReq" />
+                  <option value="GitUserResp" />
+                  <option value="GitUserTokenCreateReq" />
+                  <option value="GitUserTokenDeleteReq" />
+                  <option value="GitUserTokenResp" />
+                  <option value="GitUserUpdateReq" />
+                  <option value="ImageRepoCreateReq" />
+                  <option value="ImageRepoPageReq" />
+                  <option value="ImageRepoPageResp" />
+                  <option value="ImageRepoPathReq" />
+                  <option value="ImageRepoResp" />
+                  <option value="ImageRepoTagCreateReq" />
+                  <option value="ImageRepoTagPageReq" />
+                  <option value="ImageRepoTagPageResp" />
+                  <option value="ImageRepoTagPathReq" />
+                  <option value="ImageRepoTagResp" />
+                  <option value="ImageRepoTagUpdateReq" />
+                  <option value="ImageRepoUpdateReq" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/../cloudbase/app/asset/api/internal/logic/git_repo/download_logic.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720424393207" />
+              <option name="schema">
+                <list>
+                  <option value="DownloadLogic" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/../cloudbase/app/asset/api/internal/types/types.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720423978773" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/../cloudbase/common/consts/content_type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720424964175" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/cmd.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720410165497" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/consts/consts.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720427180169" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/license/license.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720425905567" />
+              <option name="schema">
+                <list>
+                  <option value="GenerateParam" />
+                  <option value="CheckModel" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/license/server_info/linux.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720405820895" />
+              <option name="schema">
+                <list>
+                  <option value="LinuxServerInfo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/license/server_info/server_info.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720405417798" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/license/tool.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720425999330" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/license/validate.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720425874799" />
+              <option name="schema">
+                <list>
+                  <option value="ValidateParam" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/license/verify.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720420876235" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/main.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720427544727" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/pkg/license.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720427977857" />
+              <option name="schema">
+                <list>
+                  <option value="GenerateParam" />
+                  <option value="CheckModel" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/pkg/tool.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720427223851" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/pkg/validate.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1720428112577" />
+              <option name="schema">
+                <list>
+                  <option value="ValidateParam" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="tableStructMapping">
+      <map>
+        <entry key="all_image_repo_req" value="AllImageRepoReq" />
+        <entry key="all_image_repo_resp" value="AllImageRepoResp" />
+        <entry key="all_image_repo_tag_req" value="AllImageRepoTagReq" />
+        <entry key="check_model" value="CheckModel" />
+        <entry key="commit" value="Commit" />
+        <entry key="download_logic" value="DownloadLogic" />
+        <entry key="generate_param" value="GenerateParam" />
+        <entry key="git_create_file_req" value="GitCreateFileReq" />
+        <entry key="git_create_file_resp" value="GitCreateFileResp" />
+        <entry key="git_download_req" value="GitDownloadReq" />
+        <entry key="git_download_resp" value="GitDownloadResp" />
+        <entry key="git_raw_resp" value="GitRawResp" />
+        <entry key="git_repo_branch_resp" value="GitRepoBranchResp" />
+        <entry key="git_repo_branches_get_req" value="GitRepoBranchesGetReq" />
+        <entry key="git_repo_branches_resp" value="GitRepoBranchesResp" />
+        <entry key="git_repo_commit_diff_req" value="GitRepoCommitDiffReq" />
+        <entry key="git_repo_commit_diff_resp" value="GitRepoCommitDiffResp" />
+        <entry key="git_repo_commit_resp" value="GitRepoCommitResp" />
+        <entry key="git_repo_commits_get_req" value="GitRepoCommitsGetReq" />
+        <entry key="git_repo_commits_resp" value="GitRepoCommitsResp" />
+        <entry key="git_repo_file_info_resp" value="GitRepoFileInfoResp" />
+        <entry key="git_repo_file_path_req" value="GitRepoFilePathReq" />
+        <entry key="git_repo_files_tree_resp" value="GitRepoFilesTreeResp" />
+        <entry key="git_repo_get_req" value="GitRepoGetReq" />
+        <entry key="git_repo_last_commit_req" value="GitRepoLastCommitReq" />
+        <entry key="git_repo_resp" value="GitRepoResp" />
+        <entry key="git_update_file_req" value="GitUpdateFileReq" />
+        <entry key="git_upload_file" value="GitUploadFile" />
+        <entry key="git_user_create_req" value="GitUserCreateReq" />
+        <entry key="git_user_delete_req" value="GitUserDeleteReq" />
+        <entry key="git_user_resp" value="GitUserResp" />
+        <entry key="git_user_token_create_req" value="GitUserTokenCreateReq" />
+        <entry key="git_user_token_delete_req" value="GitUserTokenDeleteReq" />
+        <entry key="git_user_token_resp" value="GitUserTokenResp" />
+        <entry key="git_user_update_req" value="GitUserUpdateReq" />
+        <entry key="image_repo_create_req" value="ImageRepoCreateReq" />
+        <entry key="image_repo_page_req" value="ImageRepoPageReq" />
+        <entry key="image_repo_page_resp" value="ImageRepoPageResp" />
+        <entry key="image_repo_path_req" value="ImageRepoPathReq" />
+        <entry key="image_repo_resp" value="ImageRepoResp" />
+        <entry key="image_repo_tag_create_req" value="ImageRepoTagCreateReq" />
+        <entry key="image_repo_tag_page_req" value="ImageRepoTagPageReq" />
+        <entry key="image_repo_tag_page_resp" value="ImageRepoTagPageResp" />
+        <entry key="image_repo_tag_path_req" value="ImageRepoTagPathReq" />
+        <entry key="image_repo_tag_resp" value="ImageRepoTagResp" />
+        <entry key="image_repo_tag_update_req" value="ImageRepoTagUpdateReq" />
+        <entry key="image_repo_update_req" value="ImageRepoUpdateReq" />
+        <entry key="linux_server_info" value="LinuxServerInfo" />
+        <entry key="validate" value="Validate" />
+        <entry key="validate_param" value="ValidateParam" />
+        <entry key="verify_param" value="VerifyParam" />
+      </map>
+    </option>
+    <option name="lastTimeChecked" value="1720419221548" />
+  </component>
+</project>
