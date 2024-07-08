@@ -15,7 +15,9 @@ A library for generating software license certificates.
 
 Generate a configuration file, which will automatically read the current machine's IP, MAC address, and main board into the configuration file.
 
-`license example`
+```shell
+$ license example
+```
 
 当前目录下会生成config.yaml文件，如有需要，请自行修改里边的内容
 
