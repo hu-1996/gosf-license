@@ -21,6 +21,7 @@ type ValidateParam struct {
 	StorePass            string                 // 访问秘钥库的密码
 	LicensePath          string                 // 证书生成路径
 	PrivateKeysStorePath string                 // 密钥库存储路径
+	ConsumerAmount       int                    `json:"consumerAmount"`
 	LicenseCheckModel    *CheckModel            `json:"licenseCheckModel"` // 服务器硬件校验信息
 	Extra                map[string]interface{} `json:"extra"`             // 额外的校验信息
 	ExtraValidateFunc    func(licenseExtra, validateExtra map[string]interface{}) error
@@ -67,11 +68,15 @@ func Validate(param *ValidateParam) error {
 		return err
 	}
 
-	// 验证cpu
 	licenseData := new(GenerateParam)
 	err = licenseData.ReadYaml(filepath.Join(param.LicensePath, consts.LicenseFile))
 	if err != nil {
 		return err
+	}
+
+	// 验证ConsumerAmount
+	if param.ConsumerAmount > licenseData.ConsumerAmount {
+		return fmt.Errorf("用户数量超过%d", licenseData.ConsumerAmount)
 	}
 
 	// 验证cpu
@@ -110,7 +115,7 @@ func Validate(param *ValidateParam) error {
 		}
 	}
 
-	fmt.Println("pkg valid！")
+	fmt.Println("validate valid！")
 	return nil
 }
 
@@ -145,12 +150,12 @@ func validateLicense(licensePath string, cert *x509.Certificate) error {
 	hash := sha256.New()
 	_, err = hash.Write(licenseFileData)
 	if err != nil {
-		return fmt.Errorf("failed to hash pkg data: %v", err)
+		return fmt.Errorf("failed to hash license data: %v", err)
 	}
 
 	err = rsa.VerifyPKCS1v15(cert.PublicKey.(*rsa.PublicKey), crypto.SHA256, hash.Sum(nil), licenseSigFileData)
 	if err != nil {
-		return fmt.Errorf("failed to validate pkg: %v", err)
+		return fmt.Errorf("failed to validate license: %v", err)
 	}
 
 	return nil

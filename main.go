@@ -20,7 +20,7 @@ var (
 
 func main() {
 	rootCmd := &cobra.Command{
-		Use:   "pkg",
+		Use:   "license",
 		Short: "generate and verify software certificate licenses",
 		Long:  "generate and verify software certificate licenses",
 		CompletionOptions: cobra.CompletionOptions{
@@ -33,8 +33,8 @@ func main() {
 
 	exampleCmd := &cobra.Command{
 		Use:   "example",
-		Short: "software certificate pkg example",
-		Long:  "software certificate pkg example",
+		Short: "software certificate license example",
+		Long:  "software certificate license example",
 		Run: func(cmd *cobra.Command, args []string) {
 			err := license.Example()
 			if err != nil {
@@ -63,7 +63,7 @@ func main() {
 			}
 
 			reader := bufio.NewReader(os.Stdin)
-			fmt.Print("Do you want to overwrite the software certificate pkg? (yes/no): ")
+			fmt.Print("Do you want to overwrite the software certificate license? (yes/no): ")
 			response, _ := reader.ReadString('\n')
 			response = strings.TrimSpace(strings.ToLower(response))
 			params.Overwrite = response == "yes" || response == "y"
@@ -74,8 +74,8 @@ func main() {
 			}
 		},
 	}
-	generateCmd.PersistentFlags().StringVarP(&output, "output", "o", consts.HomeDir, "output location of the software certificate pkg")
-	generateCmd.PersistentFlags().StringVarP(&configPath, "configPath", "c", "./config.yaml", "pkg config")
+	generateCmd.PersistentFlags().StringVarP(&output, "output", "o", consts.HomeDir, "output location of the software certificate license")
+	generateCmd.PersistentFlags().StringVarP(&configPath, "configPath", "c", "./config.yaml", "license config")
 
 	verifyCmd := &cobra.Command{
 		Use:   "validate",
@@ -119,8 +119,8 @@ func main() {
 			}
 		},
 	}
-	verifyCmd.PersistentFlags().StringVarP(&output, "output", "o", consts.HomeDir, "output location of the software certificate pkg")
-	verifyCmd.PersistentFlags().StringVarP(&configPath, "configPath", "c", "./config.yaml", "pkg config")
+	verifyCmd.PersistentFlags().StringVarP(&output, "output", "o", consts.HomeDir, "output location of the software certificate license")
+	verifyCmd.PersistentFlags().StringVarP(&configPath, "configPath", "c", "./config.yaml", "license config")
 
 	rootCmd.AddCommand(exampleCmd)
 	rootCmd.AddCommand(generateCmd)

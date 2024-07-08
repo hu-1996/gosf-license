@@ -88,7 +88,7 @@ func Generate(param *GenerateParam) error {
 	// 加密许可证
 	err = generateLicense(param, param.LicensePath, privateKey, param.Overwrite)
 	if err != nil {
-		log.Fatalf("failed to encrypt pkg: %v", err)
+		log.Fatalf("failed to encrypt license: %v", err)
 	}
 
 	return nil
@@ -317,7 +317,7 @@ func createLicense(data []byte, licensePath string, overwrite bool) error {
 		return err
 	}
 
-	fmt.Println("pkg created successfully")
+	fmt.Println("license created successfully")
 	return nil
 }
 
@@ -345,7 +345,7 @@ func createLicenseSig(data []byte, licensePath string, privateKey *rsa.PrivateKe
 		return err
 	}
 
-	fmt.Println("pkg.sig created successfully")
+	fmt.Println("license.sig created successfully")
 	return nil
 }
 
@@ -353,11 +353,11 @@ func encryptLicense(data []byte, privateKey *rsa.PrivateKey) ([]byte, error) {
 	hash := sha256.New()
 	_, err := hash.Write(data)
 	if err != nil {
-		return nil, fmt.Errorf("failed to hash pkg data: %v", err)
+		return nil, fmt.Errorf("failed to hash license data: %v", err)
 	}
 	encryptedData, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hash.Sum(nil))
 	if err != nil {
-		return nil, fmt.Errorf("failed to encrypt pkg: %v", err)
+		return nil, fmt.Errorf("failed to encrypt license: %v", err)
 	}
 	return encryptedData, nil
 }
