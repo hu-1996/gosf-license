@@ -91,7 +91,7 @@ func GetMacAddress() ([]string, error) {
 	return macs, nil
 }
 
-func getK8sNodes() ([]string, error) {
+func GetK8sNodes() ([]string, error) {
 	if os.Getenv("KUBECONFIG") == "" {
 		return nil, NotFoundKubeConfig
 	}
