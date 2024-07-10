@@ -257,20 +257,16 @@ func (params *ValidateParam) Validate(licenseData *LicenseContent) error {
 	}
 
 	// 验证cpu
-	if len(params.LicenseCheckModel.CpuSerial) > 0 {
-		for _, cpu := range params.LicenseCheckModel.CpuSerial {
-			if !slices.Contains(licenseData.CheckModel.CpuSerial, cpu) {
-				return fmt.Errorf("cpu[%s] unauthorized", cpu)
-			}
+	for _, cpu := range params.LicenseCheckModel.CpuSerial {
+		if !slices.Contains(licenseData.CheckModel.CpuSerial, cpu) {
+			return fmt.Errorf("cpu[%s] unauthorized", cpu)
 		}
 	}
 
 	// 验证主板
-	if len(params.LicenseCheckModel.BaseBoardSerial) > 0 {
-		for _, cpu := range params.LicenseCheckModel.BaseBoardSerial {
-			if !slices.Contains(licenseData.CheckModel.BaseBoardSerial, cpu) {
-				return fmt.Errorf("main board[%s] unauthorized", params.LicenseCheckModel.BaseBoardSerial)
-			}
+	for _, baseBoard := range params.LicenseCheckModel.BaseBoardSerial {
+		if !slices.Contains(licenseData.CheckModel.BaseBoardSerial, baseBoard) {
+			return fmt.Errorf("main board[%s] unauthorized", baseBoard)
 		}
 	}
 
