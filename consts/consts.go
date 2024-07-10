@@ -31,8 +31,23 @@ const (
 )
 
 const (
-	ValidateNodes = "validateNodes"
-	ValidateGPUs  = "validateGPUs"
+	ValidateNodes = "validate_nodes"
+	ValidateGPUs  = "validate_gpus"
 	Nodes         = "nodes"
-	GPUs          = "GPUs"
+	GPUs          = "gpus"
+)
+
+const (
+	Full       = "full"
+	Base       = "base"
+	Kubernetes = "kubernetes"
+)
+
+const (
+	Overwrite        = "overwrite"
+	LicenseType      = "license_type"
+	EncryptionMethod = "encryption_method"
+	StoreMethod      = "store_method"
+	Namespace        = "namespace"
+	Configmap        = "configmap"
 )

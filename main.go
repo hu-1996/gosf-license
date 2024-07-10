@@ -5,22 +5,25 @@ import (
 	"cmp"
 	"errors"
 	"fmt"
-	"github.com/hu-1996/gosf-license/consts"
-	license "github.com/hu-1996/gosf-license/pkg"
-	"github.com/hu-1996/gosf-license/pkg/store"
-	"github.com/manifoldco/promptui"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/hu-1996/gosf-license/consts"
+	license "github.com/hu-1996/gosf-license/pkg"
+	"github.com/hu-1996/gosf-license/pkg/store"
+	"github.com/manifoldco/promptui"
+	"github.com/spf13/cobra"
 )
 
 var (
 	output     string
 	configPath string
 	allPass    bool
+	namespace  string
+	configmap  string
 )
 
 func main() {
@@ -47,6 +50,9 @@ func main() {
 				log.Fatal(err)
 			}
 
+			params.Metadata[consts.Namespace] = namespace
+			params.Metadata[consts.Configmap] = configmap
+
 			validateK8s := allPass
 			if !allPass {
 				reader := bufio.NewReader(os.Stdin)
@@ -55,18 +61,33 @@ func main() {
 				response = strings.TrimSpace(strings.ToLower(response))
 				validateK8s = response == "yes" || response == "y"
 			}
-			nodes, _ := license.GetK8sNodes()
+
 			exparams := &license.ExampleParam{
-				EncryptionMethod:     params.EncryptionMethod,
-				StoreMethod:          params.StoreMethod,
-				LicenseName:          params.LicenseName,
-				LicenseSigName:       params.LicenseSigName,
-				PrivateKeysStoreName: params.PrivateKeysStoreName,
+				LicenseName:    params.LicenseName,
+				LicenseSigName: params.LicenseSigName,
+				PrivateKeyName: params.PrivateKeyName,
+				Metadata:       params.Metadata,
 				Extra: map[string]interface{}{
 					consts.ValidateNodes: validateK8s,
 					consts.ValidateGPUs:  validateK8s,
-					consts.Nodes:         nodes,
 				},
+			}
+
+			if params.Metadata[consts.LicenseType].(string) != consts.Base {
+				nodes, _ := license.GetK8sNodes()
+				exparams.Extra[consts.Nodes] = nodes
+
+				if params.Metadata[consts.Namespace] == nil {
+					params.Metadata[consts.Namespace] = "default"
+				}
+				if params.Metadata[consts.Configmap] == nil {
+					params.Metadata[consts.Configmap] = "cluster-gpu-ids"
+				}
+				gpus, err := license.GetGPUs(params.Metadata[consts.Configmap].(string), params.Metadata[consts.Namespace].(string))
+				if err != nil {
+					log.Fatal(err)
+				}
+				exparams.Extra[consts.GPUs] = gpus
 			}
 
 			err = license.Example(exparams)
@@ -76,6 +97,8 @@ func main() {
 		},
 	}
 	exampleCmd.PersistentFlags().BoolVarP(&allPass, "yes", "y", false, "all yes")
+	exampleCmd.PersistentFlags().StringVarP(&namespace, "namespace", "n", "default", "k8s namespace.(if you do not need to acquire GPUs, please ignore.)")
+	exampleCmd.PersistentFlags().StringVarP(&configmap, "configmap", "m", "cluster-gpu-ids", "k8s configmap name.(if you do not need to acquire GPUs, please ignore.)")
 
 	generateCmd := &cobra.Command{
 		Use:   "generate",
@@ -88,13 +111,13 @@ func main() {
 				log.Fatal(err)
 			}
 
-			params.Overwrite = allPass
+			params.Metadata[consts.Overwrite] = allPass
 			if !allPass {
 				reader := bufio.NewReader(os.Stdin)
 				fmt.Print("Do you want to overwrite the software certificate license? (yes/no): ")
 				response, _ := reader.ReadString('\n')
 				response = strings.TrimSpace(strings.ToLower(response))
-				params.Overwrite = response == "yes" || response == "y"
+				params.Metadata[consts.Overwrite] = response == "yes" || response == "y"
 			}
 
 			err = l.Generate(params)
@@ -119,16 +142,15 @@ func main() {
 			}
 
 			param := license.ValidateParam{
-				EncryptionMethod:     params.EncryptionMethod,
-				StoreMethod:          params.StoreMethod,
-				PrivateAlias:         params.PrivateAlias,
-				KeyPass:              params.KeyPass,
-				StorePass:            params.StorePass,
-				LicenseName:          params.LicenseName,
-				LicenseSigName:       params.LicenseSigName,
-				PrivateKeysStoreName: params.PrivateKeysStoreName,
-				NotBefore:            time.Now(),
-				NotAfter:             time.Now(),
+				PrivateAlias:   params.PrivateAlias,
+				KeyPass:        params.KeyPass,
+				StorePass:      params.StorePass,
+				LicenseName:    params.LicenseName,
+				LicenseSigName: params.LicenseSigName,
+				PrivateKeyName: params.PrivateKeyName,
+				NotBefore:      time.Now(),
+				NotAfter:       time.Now(),
+				Metadata:       params.Metadata,
 			}
 			err = l.LocalValidate(&param)
 			if err != nil {
@@ -150,6 +172,9 @@ func main() {
 
 // chooseEncryptionMethod 只在example时使用
 func chooseEncryptionMethod(params *license.GenerateParam, readConfig bool) (license.License, error) {
+	if params.Metadata == nil {
+		params.Metadata = make(map[string]interface{})
+	}
 	var encryptionType string
 	if readConfig {
 		err := params.ReadYaml(configPath)
@@ -157,44 +182,42 @@ func chooseEncryptionMethod(params *license.GenerateParam, readConfig bool) (lic
 			return nil, err
 		}
 
-		encryptionType = params.EncryptionMethod
+		encryptionType = params.Metadata[consts.EncryptionMethod].(string)
 	} else {
-		options := []string{consts.PrivateKey, consts.AES}
-
-		prompt := promptui.Select{
-			Label: "Please choose the license encryption method",
-			Items: options,
-		}
-
-		_, result, err := prompt.Run()
+		lt, err := switchOption("Please select the license type", []string{consts.Full, consts.Base, consts.Kubernetes})
 		if err != nil {
 			return nil, err
 		}
+		params.Metadata[consts.LicenseType] = lt
 
-		encryptionType = result
+		et, err := switchOption("Please choose the license encryption method", []string{consts.PrivateKey, consts.AES})
+		if err != nil {
+			return nil, err
+		}
+		encryptionType = et
 	}
 
 	var l license.License
 	switch encryptionType {
 	case consts.PrivateKey:
-		params.EncryptionMethod = cmp.Or(params.EncryptionMethod, consts.PrivateKey)
-		params.StoreMethod = cmp.Or(params.StoreMethod, consts.DiskStore)
+		params.Metadata[consts.EncryptionMethod] = cmp.Or(params.Metadata[consts.EncryptionMethod], consts.PrivateKey)
+		params.Metadata[consts.StoreMethod] = cmp.Or(params.Metadata[consts.StoreMethod], consts.DiskStore)
 		st, err := switchStore(params)
 		if err != nil {
 			return nil, err
 		}
 		l = license.NewPrivateKey(st)
 	case consts.AES:
-		params.EncryptionMethod = cmp.Or(params.EncryptionMethod, consts.AES)
-		params.StoreMethod = cmp.Or(params.StoreMethod, consts.EnvStore)
+		params.Metadata[consts.EncryptionMethod] = cmp.Or(params.Metadata[consts.EncryptionMethod], consts.AES)
+		params.Metadata[consts.StoreMethod] = cmp.Or(params.Metadata[consts.StoreMethod], consts.EnvStore)
 		st, err := switchStore(params)
 		if err != nil {
 			return nil, err
 		}
 		l = license.NewAes(st)
 	default:
-		params.EncryptionMethod = cmp.Or(params.EncryptionMethod, consts.AES)
-		params.StoreMethod = cmp.Or(params.StoreMethod, consts.EnvStore)
+		params.Metadata[consts.EncryptionMethod] = cmp.Or(params.Metadata[consts.EncryptionMethod], consts.AES)
+		params.Metadata[consts.StoreMethod] = cmp.Or(params.Metadata[consts.StoreMethod], consts.EnvStore)
 		st, err := switchStore(params)
 		if err != nil {
 			return nil, err
@@ -205,8 +228,22 @@ func chooseEncryptionMethod(params *license.GenerateParam, readConfig bool) (lic
 	return l, nil
 }
 
+func switchOption(label string, options []string) (string, error) {
+	prompt := promptui.Select{
+		Label: label,
+		Items: options,
+	}
+
+	_, result, err := prompt.Run()
+	if err != nil {
+		return "", err
+	}
+
+	return result, nil
+}
+
 func switchStore(params *license.GenerateParam) (store.Store, error) {
-	switch params.StoreMethod {
+	switch params.Metadata[consts.StoreMethod].(string) {
 	case consts.DiskStore:
 		if params.LicenseName == "" {
 			home, err := os.UserHomeDir()
@@ -224,12 +261,12 @@ func switchStore(params *license.GenerateParam) (store.Store, error) {
 			params.LicenseSigName = filepath.Join(home, consts.WorkSpace, consts.LicenseSigName)
 		}
 
-		if params.PrivateKeysStoreName == "" {
+		if params.PrivateKeyName == "" {
 			home, err := os.UserHomeDir()
 			if err != nil {
 				return nil, err
 			}
-			params.PrivateKeysStoreName = filepath.Join(home, consts.WorkSpace, consts.PrivateKeys)
+			params.PrivateKeyName = filepath.Join(home, consts.WorkSpace, consts.PrivateKeys)
 		}
 
 		return new(store.DiskStore), nil

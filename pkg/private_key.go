@@ -10,6 +10,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"github.com/hu-1996/gosf-license/consts"
 	"gopkg.in/yaml.v3"
 	"math/big"
 	"time"
@@ -43,7 +44,7 @@ func (l *PrivateKey) Generate(param *GenerateParam) error {
 	}
 
 	if privateKey == nil {
-		pk, _, err := l.loadKeyStore(param.PrivateKeysStoreName, param.StorePass, param.PrivateAlias, param.KeyPass)
+		pk, _, err := l.loadKeyStore(param.PrivateKeyName, param.StorePass, param.PrivateAlias, param.KeyPass)
 		if err != nil {
 			return err
 		}
@@ -63,7 +64,7 @@ func (l *PrivateKey) Generate(param *GenerateParam) error {
 // generateCer 目前只支持带io.Writer和io.Reader的store，env store不支持
 func (l *PrivateKey) generateCer(param *GenerateParam) (*rsa.PrivateKey, error) {
 	// 保存 keystore 到文件
-	writer, err := l.store.Writer(param.PrivateKeysStoreName)
+	writer, err := l.store.Writer(param.PrivateKeyName)
 	if err != nil {
 		return nil, err
 	}
@@ -72,14 +73,14 @@ func (l *PrivateKey) generateCer(param *GenerateParam) (*rsa.PrivateKey, error) 
 	}
 	defer writer.Close()
 
-	if !param.Overwrite {
-		exist, err := l.store.Exist(param.PrivateKeysStoreName)
+	if !param.Metadata[consts.Overwrite].(bool) {
+		exist, err := l.store.Exist(param.PrivateKeyName)
 		if err != nil {
 			return nil, err
 		}
 
 		if exist {
-			fmt.Printf("%s exist\n", param.PrivateKeysStoreName)
+			fmt.Printf("%s exist\n", param.PrivateKeyName)
 			return nil, nil
 		}
 	}
@@ -140,7 +141,7 @@ func (l *PrivateKey) generateCer(param *GenerateParam) (*rsa.PrivateKey, error) 
 		return nil, fmt.Errorf("failed to store keystore: %v", err)
 	}
 
-	fmt.Println("Keystore created successfully, path: " + param.PrivateKeysStoreName)
+	fmt.Println("Keystore created successfully, path: " + param.PrivateKeyName)
 	return privateKey, nil
 }
 
@@ -184,32 +185,18 @@ func (l *PrivateKey) loadKeyStore(keystorePath, keystorePassword, alias, entryPa
 }
 
 func (l *PrivateKey) generateLicense(param *GenerateParam, privateKey *rsa.PrivateKey) error {
-	content := &LicenseContent{
-		EncryptionMethod:  param.EncryptionMethod,
-		StoreMethod:       param.StoreMethod,
-		Subject:           param.Subject,
-		Issued:            param.Issued,
-		NotBefore:         param.NotBefore,
-		NotAfter:          param.NotAfter,
-		ConsumerType:      param.ConsumerType,
-		ConsumerAmount:    param.ConsumerAmount,
-		Description:       param.Description,
-		LicenseCheckModel: param.LicenseCheckModel,
-		Extra:             param.Extra,
-	}
-
 	// 将结构体序列化为 YAML
-	yamlData, err := yaml.Marshal(content)
+	yamlData, err := yaml.Marshal(param.prepareLicenseContent())
 	if err != nil {
 		return fmt.Errorf("write YAML err: %s", err)
 	}
 
-	err = l.createLicense(param.LicenseName, yamlData, param.Overwrite)
+	err = l.createLicense(param.LicenseName, yamlData, param.Metadata[consts.Overwrite].(bool))
 	if err != nil {
 		return err
 	}
 
-	err = l.createLicenseSig(param.LicenseSigName, yamlData, privateKey, param.Overwrite)
+	err = l.createLicenseSig(param.LicenseSigName, yamlData, privateKey, param.Metadata[consts.Overwrite].(bool))
 	if err != nil {
 		return err
 	}
@@ -273,7 +260,7 @@ func (l *PrivateKey) Validate(param *ValidateParam) error {
 		return err
 	}
 
-	_, cert, err := l.loadKeyStore(param.PrivateKeysStoreName, param.StorePass, param.PrivateAlias, param.KeyPass)
+	_, cert, err := l.loadKeyStore(param.PrivateKeyName, param.StorePass, param.PrivateAlias, param.KeyPass)
 	if err != nil {
 		return err
 	}

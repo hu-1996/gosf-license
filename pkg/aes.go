@@ -38,32 +38,18 @@ func (l *Aes) Generate(param *GenerateParam) error {
 }
 
 func (l *Aes) generateLicense(param *GenerateParam) error {
-	content := &LicenseContent{
-		EncryptionMethod:  param.EncryptionMethod,
-		StoreMethod:       param.StoreMethod,
-		Subject:           param.Subject,
-		Issued:            param.Issued,
-		NotBefore:         param.NotBefore,
-		NotAfter:          param.NotAfter,
-		ConsumerType:      param.ConsumerType,
-		ConsumerAmount:    param.ConsumerAmount,
-		Description:       param.Description,
-		LicenseCheckModel: param.LicenseCheckModel,
-		Extra:             param.Extra,
-	}
-
 	// 将结构体序列化为 YAML
-	data, err := json.Marshal(content)
+	data, err := json.Marshal(param.prepareLicenseContent())
 	if err != nil {
 		return fmt.Errorf("write json err: %s", err)
 	}
 
-	err = l.createLicense(param.LicenseName, data, param.Overwrite)
+	err = l.createLicense(param.LicenseName, data, param.Metadata[consts.Overwrite].(bool))
 	if err != nil {
 		return err
 	}
 
-	err = l.createLicenseSig(param.LicenseSigName, data, param.Overwrite)
+	err = l.createLicenseSig(param.LicenseSigName, data, param.Metadata[consts.Overwrite].(bool))
 	if err != nil {
 		return err
 	}

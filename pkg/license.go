@@ -19,75 +19,68 @@ type License interface {
 }
 
 type LicenseContent struct {
-	EncryptionMethod  string                 `json:"encryptionMethod" yaml:"encryptionMethod"`   // 加密方式
-	StoreMethod       string                 `json:"storeMethod" yaml:"storeMethod"`             // 存储方式
-	Subject           string                 `json:"subject" yaml:"subject"`                     // 证书subject
-	Issued            time.Time              `json:"issued" yaml:"issued"`                       // 证书生成时间
-	NotBefore         time.Time              `json:"notBefore" yaml:"notBefore"`                 // 证书生效时间
-	NotAfter          time.Time              `json:"notAfter" yaml:"notAfter"`                   // 证书失效时间
-	ConsumerType      string                 `json:"consumerType" yaml:"consumerType"`           // 用户类型
-	ConsumerAmount    int                    `json:"consumerAmount" yaml:"consumerAmount"`       // 用户数量
-	Description       string                 `json:"description" yaml:"description"`             // 描述信息
-	LicenseCheckModel *CheckModel            `json:"licenseCheckModel" yaml:"licenseCheckModel"` // 服务器硬件校验信息
-	Extra             map[string]interface{} `json:"extra" yaml:"extra"`                         // 额外的信息
+	Subject        string                 `json:"subject" yaml:"subject"`                                                                  // 证书subject
+	Issued         time.Time              `json:"issued" yaml:"issued"`                                                                    // 证书生成时间
+	NotBefore      time.Time              `json:"not_before" yaml:"not_before" mapstructure:"not_before"`                                  // 证书生效时间
+	NotAfter       time.Time              `json:"not_after" yaml:"not_after" mapstructure:"not_after"`                                     // 证书失效时间
+	ConsumerType   string                 `json:"consumer_type" yaml:"consumer_type" mapstructure:"consumer_type"`                         // 用户类型
+	ConsumerAmount int                    `json:"consumer_amount" yaml:"consumer_amount" mapstructure:"consumer_amount"`                   // 用户数量
+	Description    string                 `json:"description" yaml:"description"`                                                          // 描述信息
+	CheckModel     *CheckModel            `json:"check_model,omitempty" yaml:"check_model,omitempty" mapstructure:"check_model,omitempty"` // 服务器硬件校验信息
+	Metadata       map[string]interface{} `json:"metadata" yaml:"metadata"`                                                                // 元数据
+	Extra          map[string]interface{} `json:"extra,omitempty" yaml:"extra,omitempty"`                                                  // 额外的信息
 }
 
 // ExampleParam 生成config
 type ExampleParam struct {
-	EncryptionMethod     string                 `json:"encryptionMethod" yaml:"encryptionMethod"`                   // 加密方式
-	StoreMethod          string                 `json:"storeMethod" yaml:"storeMethod"`                             // 存储方式
-	LicenseName          string                 `json:"licenseName" yaml:"licenseName"`                             // 证书生成名称
-	LicenseSigName       string                 `json:"licenseSigName" yaml:"licenseSigName"`                       // sig证书生成名称
-	PrivateKeysStoreName string                 `json:"privateKeysStoreName" yaml:"privateKeysStoreName,omitempty"` // 密钥库存储名称
-	Extra                map[string]interface{} `json:"extra" yaml:"extra"`                                         // 额外的校验信息
+	LicenseName    string                 `json:"license_name" yaml:"license_name" mapstructure:"license_name"`                                           // 证书生成名称
+	LicenseSigName string                 `json:"license_sig_name" yaml:"license_sig_name" mapstructure:"license_sig_name"`                               // sig证书生成名称
+	PrivateKeyName string                 `json:"private_key_name,omitempty" yaml:"private_key_name,omitempty" mapstructure:"private_key_name,omitempty"` // 密钥库存储名称
+	Metadata       map[string]interface{} `json:"metadata" yaml:"metadata"`                                                                               // 元数据
+	Extra          map[string]interface{} `json:"extra,omitempty" yaml:"extra,omitempty"`                                                                 // 额外的校验信息
 }
 
 // GenerateParam 生成证书参数
 type GenerateParam struct {
-	Overwrite            bool                   `json:"overwrite" yaml:"overwrite"`                                 // 是否覆盖License
-	EncryptionMethod     string                 `json:"encryptionMethod" yaml:"encryptionMethod"`                   // 加密方式
-	StoreMethod          string                 `json:"storeMethod" yaml:"storeMethod"`                             // 存储方式
-	Subject              string                 `json:"subject" yaml:"subject"`                                     // 证书subject
-	PrivateAlias         string                 `json:"privateAlias" yaml:"privateAlias,omitempty"`                 // 密钥别称
-	KeyPass              string                 `json:"keyPass" yaml:"keyPass"`                                     // 密钥密码（需要妥善保管，不能让使用者知道）
-	StorePass            string                 `json:"storePass" yaml:"storePass,omitempty"`                       // 访问秘钥库的密码
-	LicenseName          string                 `json:"licenseName" yaml:"licenseName"`                             // 证书生成名称
-	LicenseSigName       string                 `json:"licenseSigName" yaml:"licenseSigName"`                       // sig证书生成名称
-	PrivateKeysStoreName string                 `json:"privateKeysStoreName" yaml:"privateKeysStoreName,omitempty"` // 密钥库存储名称
-	Issued               time.Time              `json:"issued" yaml:"issued"`                                       // 证书生成时间
-	NotBefore            time.Time              `json:"notBefore" yaml:"notBefore"`                                 // 证书生效时间
-	NotAfter             time.Time              `json:"notAfter" yaml:"notAfter"`                                   // 证书失效时间
-	ConsumerType         string                 `json:"consumerType" yaml:"consumerType"`                           // 用户类型
-	ConsumerAmount       int                    `json:"consumerAmount" yaml:"consumerAmount"`                       // 用户数量
-	Description          string                 `json:"description" yaml:"description"`                             // 描述信息
-	LicenseCheckModel    *CheckModel            `json:"licenseCheckModel" yaml:"licenseCheckModel"`                 // 服务器硬件校验信息
-	Extra                map[string]interface{} `json:"extra" yaml:"extra"`                                         // 额外的信息
+	Subject        string                 `json:"subject" yaml:"subject"`                                                                                 // 证书subject
+	PrivateAlias   string                 `json:"private_alias" yaml:"private_alias,omitempty" mapstructure:"private_alias,omitempty"`                    // 密钥别称
+	KeyPass        string                 `json:"key_pass" yaml:"key_pass" mapstructure:"key_pass"`                                                       // 密钥密码（需要妥善保管，不能让使用者知道）
+	StorePass      string                 `json:"store_pass,omitempty" yaml:"store_pass,omitempty" mapstructure:"store_pass,omitempty"`                   // 访问秘钥库的密码
+	LicenseName    string                 `json:"license_name" yaml:"license_name" mapstructure:"license_name"`                                           // 证书生成名称
+	LicenseSigName string                 `json:"license_sig_name" yaml:"license_sig_name" mapstructure:"license_sig_name"`                               // sig证书生成名称
+	PrivateKeyName string                 `json:"private_key_name,omitempty" yaml:"private_key_name,omitempty" mapstructure:"private_key_name,omitempty"` // 密钥库存储名称
+	Issued         time.Time              `json:"issued" yaml:"issued"`                                                                                   // 证书生成时间
+	NotBefore      time.Time              `json:"not_before" yaml:"not_before" mapstructure:"not_before"`                                                 // 证书生效时间
+	NotAfter       time.Time              `json:"not_after" yaml:"not_after" mapstructure:"not_after"`                                                    // 证书失效时间
+	ConsumerType   string                 `json:"consumer_type" yaml:"consumer_type" mapstructure:"consumer_type"`                                        // 用户类型
+	ConsumerAmount int                    `json:"consumer_amount" yaml:"consumer_amount" mapstructure:"consumer_amount"`                                  // 用户数量
+	Description    string                 `json:"description" yaml:"description"`                                                                         // 描述信息
+	Metadata       map[string]interface{} `json:"metadata" yaml:"metadata"`                                                                               // 元数据
+	CheckModel     *CheckModel            `json:"check_model,omitempty" yaml:"check_model,omitempty" mapstructure:"check_model,omitempty"`                // 服务器硬件校验信息
+	Extra          map[string]interface{} `json:"extra,omitempty" yaml:"extra,omitempty"`                                                                 // 额外的信息
 }
 
 type CheckModel struct {
-	IpAddress       []string `json:"ipAddress" yaml:"ipAddress"`             // 可被允许的IP地址
-	MacAddress      []string `json:"macAddress" yaml:"macAddress"`           // 可被允许的MAC地址
-	CpuSerial       []string `json:"cpuSerial" yaml:"cpuSerial"`             // 可被允许的CPU序列号
-	MainBoardSerial string   `json:"mainBoardSerial" yaml:"mainBoardSerial"` // 可被允许的主板序列号
-	//NodeAddress     []string `json:"nodeAddress" yaml:"nodeAddress"`         // 可被允许的Node MAC地址
-	//GPUID           []string `json:"GPUID" yaml:"GPUID"`                     // 可被允许的GPU ID地址
+	IpAddress       []string `json:"ip_address" yaml:"ip_address" mapstructure:"ip_address"`                      // 可被允许的IP地址
+	MacAddress      []string `json:"mac_address" yaml:"mac_address" mapstructure:"mac_address"`                   // 可被允许的MAC地址
+	CpuSerial       []string `json:"cpu_serial" yaml:"cpu_serial" mapstructure:"cpu_serial"`                      // 可被允许的CPU序列号
+	MainBoardSerial string   `json:"main_board_serial" yaml:"main_board_serial" mapstructure:"main_board_serial"` // 可被允许的主板序列号
 }
 
 type ValidateParam struct {
-	EncryptionMethod     string                                                         // 加密方式
-	StoreMethod          string                                                         // 存储方式
-	PrivateAlias         string                                                         // 密钥别称
-	KeyPass              string                                                         // 密钥密码（需要妥善保管，不能让使用者知道）
-	StorePass            string                                                         // 访问秘钥库的密码
-	LicenseName          string                                                         // 证书生成名称
-	LicenseSigName       string                                                         // sig证书生成名称
-	PrivateKeysStoreName string                                                         // 密钥库存储名称
-	NotBefore            time.Time                                                      // 证书生效时间
-	NotAfter             time.Time                                                      // 证书失效时间
-	ConsumerAmount       int                                                            // 用户数量
-	LicenseCheckModel    *CheckModel                                                    // 服务器硬件校验信息
-	Extra                map[string]interface{}                                         // 额外的校验信息
-	ExtraValidateFunc    func(licenseExtra, validateExtra map[string]interface{}) error // 额外的校验函数
+	PrivateAlias      string                                                         // 密钥别称
+	KeyPass           string                                                         // 密钥密码（需要妥善保管，不能让使用者知道）
+	StorePass         string                                                         // 访问秘钥库的密码
+	LicenseName       string                                                         // 证书生成名称
+	LicenseSigName    string                                                         // sig证书生成名称
+	PrivateKeyName    string                                                         // 密钥库存储名称
+	NotBefore         time.Time                                                      // 证书生效时间
+	NotAfter          time.Time                                                      // 证书失效时间
+	ConsumerAmount    int                                                            // 用户数量
+	Metadata          map[string]interface{}                                         // 元数据
+	LicenseCheckModel *CheckModel                                                    // 服务器硬件校验信息
+	Extra             map[string]interface{}                                         // 额外的校验信息
+	ExtraValidateFunc func(licenseExtra, validateExtra map[string]interface{}) error // 额外的校验函数
 }
 
 func Example(param *ExampleParam) error {
@@ -97,29 +90,33 @@ func Example(param *ExampleParam) error {
 	macAddress, _ := GetMacAddress()
 
 	config := GenerateParam{
-		Overwrite:            false,
-		EncryptionMethod:     param.EncryptionMethod,
-		StoreMethod:          param.StoreMethod,
-		Subject:              "sf",
-		PrivateAlias:         consts.PrivateAlias,
-		KeyPass:              consts.KeyPass,
-		StorePass:            consts.StorePass,
-		LicenseName:          param.LicenseName,
-		LicenseSigName:       param.LicenseSigName,
-		PrivateKeysStoreName: param.PrivateKeysStoreName,
-		Issued:               time.Now(),
-		NotBefore:            time.Now(),
-		NotAfter:             time.Now().AddDate(99, 0, 0),
-		ConsumerType:         consts.ConsumerType,
-		ConsumerAmount:       consts.ConsumerAmount,
-		Description:          consts.Description,
-		LicenseCheckModel: &CheckModel{
+		Subject:        "sf",
+		PrivateAlias:   consts.PrivateAlias,
+		KeyPass:        consts.KeyPass,
+		StorePass:      consts.StorePass,
+		LicenseName:    param.LicenseName,
+		LicenseSigName: param.LicenseSigName,
+		PrivateKeyName: param.PrivateKeyName,
+		Issued:         time.Now(),
+		NotBefore:      time.Now(),
+		NotAfter:       time.Now().AddDate(99, 0, 0),
+		ConsumerType:   consts.ConsumerType,
+		ConsumerAmount: consts.ConsumerAmount,
+		Description:    consts.Description,
+		Metadata:       param.Metadata,
+	}
+
+	switch param.Metadata[consts.LicenseType].(string) {
+	case consts.Kubernetes:
+		config.Extra = param.Extra
+	default:
+		config.CheckModel = &CheckModel{
 			CpuSerial:       serial,
 			MainBoardSerial: boardSerial,
 			IpAddress:       ipAddress,
 			MacAddress:      macAddress,
-		},
-		Extra: param.Extra,
+		}
+		config.Extra = param.Extra
 	}
 
 	// 将结构体序列化为 YAML
@@ -139,7 +136,7 @@ func Example(param *ExampleParam) error {
 func (p *GenerateParam) prepareGenerateParam() error {
 	p.Subject = cmp.Or(p.Subject, consts.Subject)
 	p.KeyPass = cmp.Or(p.KeyPass, consts.KeyPass)
-	if p.EncryptionMethod == consts.PrivateKey {
+	if p.Metadata[consts.EncryptionMethod].(string) == consts.PrivateKey {
 		p.PrivateAlias = cmp.Or(p.PrivateAlias, consts.PrivateAlias)
 		p.StorePass = cmp.Or(p.StorePass, consts.StorePass)
 	}
@@ -152,8 +149,8 @@ func (p *GenerateParam) prepareGenerateParam() error {
 		return errors.New("licenseSigName must not be empty")
 	}
 
-	if p.EncryptionMethod == consts.PrivateKey && p.PrivateKeysStoreName == "" {
-		return errors.New("when the encryption method is privateKey, PrivateKeysStoreName must not be empty")
+	if p.Metadata[consts.EncryptionMethod].(string) == consts.PrivateKey && p.PrivateKeyName == "" {
+		return errors.New("when the encryption method is privateKey, PrivateKeyName must not be empty")
 	}
 
 	if p.Issued.IsZero() {
@@ -184,11 +181,35 @@ func (p *GenerateParam) prepareGenerateParam() error {
 
 func (p *ValidateParam) prepareVerifyParam() error {
 	p.KeyPass = cmp.Or(p.KeyPass, consts.KeyPass)
-	if p.EncryptionMethod == consts.PrivateKey {
+	if p.Metadata[consts.EncryptionMethod].(string) == consts.PrivateKey {
 		p.PrivateAlias = cmp.Or(p.PrivateAlias, consts.PrivateAlias)
 		p.StorePass = cmp.Or(p.StorePass, consts.StorePass)
 	}
 	return nil
+}
+
+func (param *GenerateParam) prepareLicenseContent() *LicenseContent {
+	content := &LicenseContent{
+		Subject:        param.Subject,
+		Issued:         param.Issued,
+		NotBefore:      param.NotBefore,
+		NotAfter:       param.NotAfter,
+		ConsumerType:   param.ConsumerType,
+		ConsumerAmount: param.ConsumerAmount,
+		Description:    param.Description,
+		Metadata:       param.Metadata,
+	}
+	switch param.Metadata[consts.LicenseType].(string) {
+	case consts.Kubernetes:
+		content.Extra = param.Extra
+		delete(content.Extra, consts.ValidateNodes)
+		delete(content.Extra, consts.ValidateGPUs)
+	default:
+		content.CheckModel = param.CheckModel
+		content.Extra = param.Extra
+	}
+
+	return content
 }
 
 func (c *GenerateParam) ReadYaml(path string) error {
@@ -234,27 +255,27 @@ func (params *ValidateParam) Validate(licenseData *LicenseContent) error {
 	// 验证cpu
 	if len(params.LicenseCheckModel.CpuSerial) > 0 {
 		for _, cpu := range params.LicenseCheckModel.CpuSerial {
-			if !slices.Contains(licenseData.LicenseCheckModel.CpuSerial, cpu) {
+			if !slices.Contains(licenseData.CheckModel.CpuSerial, cpu) {
 				return fmt.Errorf("cpu[%s] unauthorized", cpu)
 			}
 		}
 	}
 
 	// 验证主板
-	if params.LicenseCheckModel.MainBoardSerial != "" && params.LicenseCheckModel.MainBoardSerial != licenseData.LicenseCheckModel.MainBoardSerial {
+	if params.LicenseCheckModel.MainBoardSerial != "" && params.LicenseCheckModel.MainBoardSerial != licenseData.CheckModel.MainBoardSerial {
 		return fmt.Errorf("main board[%s] unauthorized", params.LicenseCheckModel.MainBoardSerial)
 	}
 
 	// 验证ipAddress
 	for _, ip := range params.LicenseCheckModel.IpAddress {
-		if !slices.Contains(licenseData.LicenseCheckModel.IpAddress, ip) {
+		if !slices.Contains(licenseData.CheckModel.IpAddress, ip) {
 			return fmt.Errorf("ip[%s] unauthorized", ip)
 		}
 	}
 
 	// 验证macAddress
 	for _, macAddr := range params.LicenseCheckModel.MacAddress {
-		if !slices.Contains(licenseData.LicenseCheckModel.MacAddress, macAddr) {
+		if !slices.Contains(licenseData.CheckModel.MacAddress, macAddr) {
 			return fmt.Errorf("mac address[%s] unauthorized", macAddr)
 		}
 	}
