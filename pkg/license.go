@@ -66,7 +66,7 @@ type CheckModel struct {
 	IpAddress       []string `json:"ip_address" yaml:"ip_address" mapstructure:"ip_address"`                      // 可被允许的IP地址
 	MacAddress      []string `json:"mac_address" yaml:"mac_address" mapstructure:"mac_address"`                   // 可被允许的MAC地址
 	CpuSerial       []string `json:"cpu_serial" yaml:"cpu_serial" mapstructure:"cpu_serial"`                      // 可被允许的CPU序列号
-	MainBoardSerial string   `json:"main_board_serial" yaml:"main_board_serial" mapstructure:"main_board_serial"` // 可被允许的主板序列号
+	BaseBoardSerial []string `json:"base_board_serial" yaml:"base_board_serial" mapstructure:"base_board_serial"` // 可被允许的主板序列号
 }
 
 type ValidateParam struct {
@@ -87,7 +87,7 @@ type ValidateParam struct {
 
 func Example(param *ExampleParam) error {
 	serial, _ := GetCPUSerial()
-	boardSerial, _ := GetMainBoardSerial()
+	boardSerial, _ := GetBaseBoardSerial()
 	ipAddress, _ := GetIpAddress()
 	macAddress, _ := GetMacAddress()
 
@@ -114,7 +114,7 @@ func Example(param *ExampleParam) error {
 	default:
 		config.CheckModel = &CheckModel{
 			CpuSerial:       serial,
-			MainBoardSerial: boardSerial,
+			BaseBoardSerial: []string{boardSerial},
 			IpAddress:       ipAddress,
 			MacAddress:      macAddress,
 		}
@@ -264,8 +264,12 @@ func (params *ValidateParam) Validate(licenseData *LicenseContent) error {
 	}
 
 	// 验证主板
-	if params.LicenseCheckModel.MainBoardSerial != "" && params.LicenseCheckModel.MainBoardSerial != licenseData.CheckModel.MainBoardSerial {
-		return fmt.Errorf("main board[%s] unauthorized", params.LicenseCheckModel.MainBoardSerial)
+	if len(params.LicenseCheckModel.BaseBoardSerial) > 0 {
+		for _, cpu := range params.LicenseCheckModel.BaseBoardSerial {
+			if !slices.Contains(licenseData.CheckModel.BaseBoardSerial, cpu) {
+				return fmt.Errorf("main board[%s] unauthorized", params.LicenseCheckModel.BaseBoardSerial)
+			}
+		}
 	}
 
 	// 验证ipAddress

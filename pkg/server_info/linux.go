@@ -37,8 +37,8 @@ func (s *LinuxServerInfo) GetCPUSerial() ([]string, error) {
 	return serial, nil
 }
 
-func (s *LinuxServerInfo) GetMainBoardSerial() (string, error) {
-	command := exec.Command("sh", "-c", "dmidecode | grep 'Serial Number' | awk '{print $3}' | tail -1")
+func (s *LinuxServerInfo) GetBaseBoardSerial() (string, error) {
+	command := exec.Command("sh", "-c", "dmidecode -t 2 | grep 'Serial Number' | awk '{print $3}' | tail -1")
 	output, err := command.Output()
 	if err != nil {
 		return "", err

@@ -73,14 +73,14 @@ func (l *Aes) createLicenseSig(licenseName string, data []byte, overwrite bool) 
 func (l *Aes) LocalValidate(param *ValidateParam) error {
 	if param.LicenseCheckModel == nil {
 		serial, _ := GetCPUSerial()
-		boardSerial, _ := GetMainBoardSerial()
+		boardSerial, _ := GetBaseBoardSerial()
 		ipAddress, _ := GetIpAddress()
 		macAddress, _ := GetMacAddress()
 		param.LicenseCheckModel = &CheckModel{
 			IpAddress:       ipAddress,
 			MacAddress:      macAddress,
 			CpuSerial:       serial,
-			MainBoardSerial: boardSerial,
+			BaseBoardSerial: []string{boardSerial},
 		}
 	}
 

@@ -27,10 +27,10 @@ func GetCPUSerial() ([]string, error) {
 	return nil, OsNotSupported
 }
 
-func GetMainBoardSerial() (string, error) {
+func GetBaseBoardSerial() (string, error) {
 	switch runtime.GOOS {
 	case "linux":
-		return server_info.NewLinuxServerInfo().GetMainBoardSerial()
+		return server_info.NewLinuxServerInfo().GetBaseBoardSerial()
 	}
 	return "", OsNotSupported
 }

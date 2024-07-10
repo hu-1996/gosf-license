@@ -234,14 +234,14 @@ func encryptLicense(data []byte, privateKey *rsa.PrivateKey) ([]byte, error) {
 func (l *PrivateKey) LocalValidate(param *ValidateParam) error {
 	if param.LicenseCheckModel == nil {
 		serial, _ := GetCPUSerial()
-		boardSerial, _ := GetMainBoardSerial()
+		boardSerial, _ := GetBaseBoardSerial()
 		ipAddress, _ := GetIpAddress()
 		macAddress, _ := GetMacAddress()
 		param.LicenseCheckModel = &CheckModel{
 			IpAddress:       ipAddress,
 			MacAddress:      macAddress,
 			CpuSerial:       serial,
-			MainBoardSerial: boardSerial,
+			BaseBoardSerial: []string{boardSerial},
 		}
 	}
 
