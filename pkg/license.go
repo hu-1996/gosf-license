@@ -2,6 +2,7 @@ package license
 
 import (
 	"cmp"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/hu-1996/gosf-license/consts"
@@ -18,6 +19,7 @@ type License interface {
 	Generate(param *GenerateParam) error
 	LocalValidate(param *ValidateParam) error
 	Validate(param *ValidateParam) error
+	GetLicenseContent(name string) (LicenseContent, error)
 }
 
 type LicenseContent struct {
@@ -363,4 +365,19 @@ func (params *ValidateParam) NewLicense() (License, error) {
 	}
 
 	return l, nil
+}
+
+func (l *Aes) GetLicenseContent(name string) (LicenseContent, error) {
+	var licenseData LicenseContent
+	content, err := l.store.Load(name)
+	if err != nil {
+		return LicenseContent{}, err
+	}
+
+	err = json.Unmarshal(content, &licenseData)
+	if err != nil {
+		return LicenseContent{}, err
+	}
+
+	return licenseData, nil
 }

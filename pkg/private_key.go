@@ -310,3 +310,13 @@ func (l *PrivateKey) validateLicense(licenseName, licenseSigName string, cert *x
 
 	return licenseData, nil
 }
+
+func (l *PrivateKey) GetLicenseContent(name string) (LicenseContent, error) {
+	licenseData := new(LicenseContent)
+	err := licenseData.ReadYaml(name)
+	if err != nil {
+		return LicenseContent{}, err
+	}
+
+	return *licenseData, nil
+}

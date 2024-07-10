@@ -83,10 +83,7 @@ func main() {
 				if params.Metadata[consts.Configmap] == nil {
 					params.Metadata[consts.Configmap] = "cluster-gpu-ids"
 				}
-				gpus, err := license.GetGPUs(params.Metadata[consts.Configmap].(string), params.Metadata[consts.Namespace].(string))
-				if err != nil {
-					log.Fatal(err)
-				}
+				gpus, _ := license.GetGPUs(params.Metadata[consts.Configmap].(string), params.Metadata[consts.Namespace].(string))
 				exparams.Extra[consts.GPUs] = gpus
 			}
 
@@ -139,9 +136,9 @@ func main() {
 				PrivateAlias:   consts.PrivateAlias,
 				KeyPass:        consts.KeyPass,
 				StorePass:      consts.StorePass,
-				LicenseName:    "/Users/user/.gosf/license",
-				LicenseSigName: "/Users/user/.gosf/license.sig",
-				PrivateKeyName: "/Users/user/.gosf/privateKeys.keystore",
+				LicenseName:    "/Users/hujialin/.gosf/license",
+				LicenseSigName: "/Users/hujialin/.gosf/license.sig",
+				PrivateKeyName: "/Users/hujialin/.gosf/privateKeys.keystore",
 				NotBefore:      time.Now(),
 				NotAfter:       time.Now(),
 				Metadata: map[string]interface{}{
@@ -159,6 +156,12 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
+
+			content, err := l.GetLicenseContent(param.LicenseName)
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println(content)
 		},
 	}
 	verifyCmd.PersistentFlags().StringVarP(&output, "output", "o", consts.HomeDir, "output location of the software certificate license")
