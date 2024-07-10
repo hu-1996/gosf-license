@@ -135,23 +135,26 @@ func main() {
 		Short: "validate software certificate licenses",
 		Long:  "validate software certificate licenses",
 		Run: func(cmd *cobra.Command, args []string) {
-			params := new(license.GenerateParam)
-			l, err := chooseEncryptionMethod(params, true)
+			param := license.ValidateParam{
+				PrivateAlias:   consts.PrivateAlias,
+				KeyPass:        consts.KeyPass,
+				StorePass:      consts.StorePass,
+				LicenseName:    "/Users/user/.gosf/license",
+				LicenseSigName: "/Users/user/.gosf/license.sig",
+				PrivateKeyName: "/Users/user/.gosf/privateKeys.keystore",
+				NotBefore:      time.Now(),
+				NotAfter:       time.Now(),
+				Metadata: map[string]interface{}{
+					consts.EncryptionMethod: consts.PrivateKey,
+					consts.StoreMethod:      consts.DiskStore,
+				},
+			}
+
+			l, err := param.NewLicense()
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			param := license.ValidateParam{
-				PrivateAlias:   params.PrivateAlias,
-				KeyPass:        params.KeyPass,
-				StorePass:      params.StorePass,
-				LicenseName:    params.LicenseName,
-				LicenseSigName: params.LicenseSigName,
-				PrivateKeyName: params.PrivateKeyName,
-				NotBefore:      time.Now(),
-				NotAfter:       time.Now(),
-				Metadata:       params.Metadata,
-			}
 			err = l.LocalValidate(&param)
 			if err != nil {
 				log.Fatal(err)
@@ -170,7 +173,7 @@ func main() {
 	}
 }
 
-// chooseEncryptionMethod 只在example时使用
+// chooseEncryptionMethod
 func chooseEncryptionMethod(params *license.GenerateParam, readConfig bool) (license.License, error) {
 	if params.Metadata == nil {
 		params.Metadata = make(map[string]interface{})

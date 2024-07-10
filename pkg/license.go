@@ -8,6 +8,8 @@ import (
 	"github.com/hu-1996/gosf-license/pkg/store"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
+	"os"
+	"path/filepath"
 	"slices"
 	"time"
 )
@@ -288,4 +290,73 @@ func (params *ValidateParam) Validate(licenseData *LicenseContent) error {
 		}
 	}
 	return nil
+}
+
+func (params *ValidateParam) SwitchStore() (store.Store, error) {
+	switch params.Metadata[consts.StoreMethod].(string) {
+	case consts.DiskStore:
+		if params.LicenseName == "" {
+			home, err := os.UserHomeDir()
+			if err != nil {
+				return nil, err
+			}
+			params.LicenseName = filepath.Join(home, consts.WorkSpace, consts.LicenseName)
+		}
+
+		if params.LicenseSigName == "" {
+			home, err := os.UserHomeDir()
+			if err != nil {
+				return nil, err
+			}
+			params.LicenseSigName = filepath.Join(home, consts.WorkSpace, consts.LicenseSigName)
+		}
+
+		if params.PrivateKeyName == "" {
+			home, err := os.UserHomeDir()
+			if err != nil {
+				return nil, err
+			}
+			params.PrivateKeyName = filepath.Join(home, consts.WorkSpace, consts.PrivateKeys)
+		}
+
+		return new(store.DiskStore), nil
+	case consts.EnvStore:
+		params.LicenseName = cmp.Or(params.LicenseName, consts.LicenseEnv)
+		params.LicenseSigName = cmp.Or(params.LicenseSigName, consts.LicenseSigEnv)
+		return new(store.EnvStore), nil
+	default:
+		return nil, errors.New("unknown store method")
+	}
+}
+
+// NewLicense 只在example时使用
+func (params *ValidateParam) NewLicense() (License, error) {
+	encryptionType := params.Metadata[consts.EncryptionMethod].(string)
+	var l License
+	switch encryptionType {
+	case consts.PrivateKey:
+		params.Metadata[consts.StoreMethod] = cmp.Or(params.Metadata[consts.StoreMethod], consts.DiskStore)
+		st, err := params.SwitchStore()
+		if err != nil {
+			return nil, err
+		}
+		l = NewPrivateKey(st)
+	case consts.AES:
+		params.Metadata[consts.StoreMethod] = cmp.Or(params.Metadata[consts.StoreMethod], consts.EnvStore)
+		st, err := params.SwitchStore()
+		if err != nil {
+			return nil, err
+		}
+		l = NewAes(st)
+	default:
+		params.Metadata[consts.EncryptionMethod] = cmp.Or(params.Metadata[consts.EncryptionMethod], consts.AES)
+		params.Metadata[consts.StoreMethod] = cmp.Or(params.Metadata[consts.StoreMethod], consts.EnvStore)
+		st, err := params.SwitchStore()
+		if err != nil {
+			return nil, err
+		}
+		l = NewAes(st)
+	}
+
+	return l, nil
 }
