@@ -9,6 +9,7 @@ import (
 	"github.com/hu-1996/gosf-license/pkg/store"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
+	"log"
 	"os"
 	"path/filepath"
 	"slices"
@@ -371,7 +372,8 @@ func (l *Aes) GetLicenseContent(name string) (LicenseContent, error) {
 	}
 
 	if len(content) == 0 {
-		return LicenseContent{}, fmt.Errorf("the content of %s is empty", name)
+		log.Printf("the content of %s is empty\n", name)
+		return LicenseContent{}, nil
 	}
 
 	err = json.Unmarshal(content, &licenseData)
