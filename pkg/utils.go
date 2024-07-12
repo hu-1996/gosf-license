@@ -127,6 +127,10 @@ func GetGPUs(configmap, namespace string) ([]string, error) {
 		return nil, err
 	}
 
+	if len(output) == 0 {
+		return nil, errors.New("GPUs is empty")
+	}
+
 	//output := `{"gml-dev-04":"GPU-a6e1653b-d968-4c44-e928-b9dc0703bd4a\nGPU-cddb6795-d9da-e00b-9943-e6f224f01e80\nGPU-0ad09cd4-b317-dc2a-1b54-6f634a94057f\nGPU-13ce6205-4357-35d8-a0f9-f23af10a001f\n","gml-dev-07":"GPU-e28d395a-e851-ea9e-84b6-0d582a6e4300\nGPU-492ba06b-15ec-5895-5fa6-605262c500d1\nGPU-670c0de2-7078-4d5c-dcbc-222310e2c258\nGPU-8681ab9e-fbe2-563a-de9a-3c8d3f99e821\n"}`
 	var gm map[string]string
 	err = json.Unmarshal(output, &gm)

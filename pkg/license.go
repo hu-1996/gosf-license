@@ -370,6 +370,10 @@ func (l *Aes) GetLicenseContent(name string) (LicenseContent, error) {
 		return LicenseContent{}, err
 	}
 
+	if len(content) == 0 {
+		return LicenseContent{}, fmt.Errorf("the content of %s is empty", name)
+	}
+
 	err = json.Unmarshal(content, &licenseData)
 	if err != nil {
 		return LicenseContent{}, err
